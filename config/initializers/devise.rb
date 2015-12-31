@@ -4,6 +4,7 @@ Devise.setup do |config|
 
   #Figaro setup to use Heroku with Devise
   #Need to build key into application.yml
+  #use devise_secret_key in application.yml
   config.secret_key = Figaro.env.devise_secret_key if Rails.env.production?
 
   # The secret key used by Devise. Devise uses this key to generate
