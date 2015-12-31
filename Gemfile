@@ -58,5 +58,10 @@ end
 #Figaro handles sensitive data with environment variables
  gem 'figaro', '1.0'
 
+#Allows pushing secrets.yml to Heroku with:
+#rake heroku:secrets RAILS_ENV=production
+#gem 'heroku_secrets', github:
+#'alexpeattie/heroku_secrets'
+
 #Faker handles random data seed creation
  gem 'faker'
