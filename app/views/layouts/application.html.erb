@@ -11,17 +11,33 @@
   <div class="container">
     <ul class="nav nav-tabs">
       <% if user_signed_in? %>
-        <li>Signed in as: <strong><%= current_user.email %></strong> </li>
+        <li class="pull-right user-info">Signed in as: <strong><%= current_user.email %></strong> </li>
         <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
         <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "Sign Up", new_user_registration_path %></li>
         <li><%= link_to "Sign In", new_user_session_path %></li>
       <% end %>
+      <li><%= link_to "Home", welcome_index_path %></li>
+      <li><%= link_to "About", welcome_about_path %></li>
     </ul>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% flash.each do |key, value| %>
+        <% if value.class == Array %>
+            <div class="<%= flash_class(key) %>">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <% value.each do |message| %>
+                    <%= message %>
+                    </br>
+                <% end %>
+            </div>
+        <% else %>
+            <div class="<%= flash_class(key) %>">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <%= value %>
+            </div>
+        <% end %>
+    <% end %>
 
     <%= yield %>
   </div>
