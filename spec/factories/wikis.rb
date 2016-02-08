@@ -7,7 +7,7 @@ FactoryGirl.define do
   end
 
   factory :private_wiki do
-    title Faker::Hipster.words(3)
+    title Faker::Hipster.sentence(3)
     body Faker::Hipster.paragraph
     private true
     user
