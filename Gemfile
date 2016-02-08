@@ -65,3 +65,6 @@ end
 
 #Faker handles random data seed creation
  gem 'faker'
+
+#Punit handles user roles and authorization
+ gem 'pundit'
