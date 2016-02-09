@@ -9,19 +9,32 @@
 </head>
 <body>
   <div class="container">
-    <ul class="nav nav-tabs">
-      <% if user_signed_in? %>
-        <li class="pull-right user-info">Signed in as: <strong><%= current_user.email %></strong> </li>
-        <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
-        <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
-      <% else %>
-        <li><%= link_to "Sign Up", new_user_registration_path %></li>
-        <li><%= link_to "Sign In", new_user_session_path %></li>
-      <% end %>
-      <li><%= link_to "Home", root_path %></li>
-      <li><%= link_to "About", about_path %></li>
-      <li><%= link_to "Wikis", wikis_path %></li>
-    </ul>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/welcome/index">Blocipedia</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active">
+          <li><a href="/about">About</a></li>
+          <li><a href="/wikis">Wikis</a></li>
+        </ul>
+        <% if user_signed_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/users/<%= current_user.id %>"><span class="glyphicon glyphicon-user"></span> <%= current_user.username %></a></li>
+          <li><a data-method='delete' href="/users/sign_out"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+        </ul>
+        <% else %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/users/sign_up"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+        <% end %>
+      </div>
+    </nav>
+
+
 
     <% flash.each do |key, value| %>
         <% if value.class == Array %>

@@ -1,2 +1,11 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<h1><%= @user.username %></h1>
+<p id="index-title">User membership status: <%= @user.role.capitalize %></p>
+<p id="index-title">
+  <% if @user.role == 'standard' %>
+    <%= link_to "Upgrade", new_charge_path, class: 'btn btn-primary' %>
+  <% end %>
+  <% if @user.role == 'premium' %>
+    <%= link_to "Downgrade", charge_path, method: :delete, class: 'btn btn-default' %>
+  <% end %></p>
+
+<p id="index-title"><%= link_to 'Edit Profile', edit_user_registration_path %></p>

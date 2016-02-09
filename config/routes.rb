@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations"}
 
+  resources :charges, only: [:new, :create, :destroy]
+
   resources :users, only: [:index, :show]
 
   resources :wikis

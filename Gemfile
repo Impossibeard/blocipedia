@@ -68,3 +68,6 @@ end
 
 #Punit handles user roles and authorization
  gem 'pundit'
+
+ #Stripe handles creditcard account information
+ gem 'stripe'
