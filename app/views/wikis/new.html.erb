@@ -22,6 +22,9 @@
       <div class="form-group">
         <%= f.submit "Save", class: 'btn btn-primary' %>
       </div>
+      <div>
+      <%= render partial: 'wikis/form', locals: { f: f } %>
+      </div>
     <% end %>
   </div>
 </div>

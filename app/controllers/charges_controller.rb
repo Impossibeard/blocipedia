@@ -28,7 +28,8 @@ class ChargesController < ApplicationController
     currency: 'usd'
     )
 
-    flash[:notice] = "Enjoy your premium Blocipedia membership, #{current_user.email}!"
+    flash[:notice] = "Enjoy your premium Blocipedia membership, #{current_user.username}!"
+    #upgrades a users account to premium
     current_user.premium!
     redirect_to user_path(current_user) #or wherever
 
@@ -40,7 +41,10 @@ class ChargesController < ApplicationController
   end
 
   def destroy
-    flash[:notice] = "Please try our Premium services again in the future, #{current_user.email}!"
+    flash[:notice] = "Please try our Premium services again in the future, #{current_user.username}!"
+    #Downgrades private wikis to public when a user downgrades their account status
+    current_user.wikis.where(private: true).map { |r| r.update_attributes(private: false) }
+    #Downgrades a users account to standard
     current_user.standard!
     redirect_to current_user
   end
