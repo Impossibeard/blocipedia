@@ -12,4 +12,12 @@ class User < ActiveRecord::Base
            self.role ||= :standard
          end
 
+         def downgrade
+           #Downgrades private wikis to public when a user downgrades their account status
+           self.wikis.where(private: true).map{ |r| r.update_attributes(private: false) }
+
+           #Downgrades a users account to standard
+           self.standard!
+         end
+
 end

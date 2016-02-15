@@ -15,22 +15,25 @@ class ChargesController < ApplicationController
     @amount = 500
 
     # Creates a Stripe customer object for associating with the charge
-    customer = Stripe::Customer.create(
+    @customer = Stripe::Customer.create(
       email: current_user.email,
       card: params[:stripeToken]
     )
 
     # Where the real magic happens
     charge = Stripe::Charge.create(
-    customer: customer.id,
+    customer: @customer.id,
     amount: @amount,
     description: "Blocipedia Premium Membership - #{current_user.email}",
     currency: 'usd'
     )
 
     flash[:notice] = "Enjoy your premium Blocipedia membership, #{current_user.username}!"
-    #upgrades a users account to premium
+
+    #Store user customer_id and upgrade them to premium
+    current_user.update_attributes(customer_id: @customer.id, last_charge: charge.id)
     current_user.premium!
+
     redirect_to user_path(current_user) #or wherever
 
     #Stripe will send back CardErrors, with friendly messages when something goes wrong.
@@ -41,11 +44,11 @@ class ChargesController < ApplicationController
   end
 
   def destroy
-    flash[:notice] = "Please try our Premium services again in the future, #{current_user.username}!"
-    #Downgrades private wikis to public when a user downgrades their account status
-    current_user.wikis.where(private: true).map { |r| r.update_attributes(private: false) }
-    #Downgrades a users account to standard
-    current_user.standard!
+    refund = Stripe::Refund.create(charge: current_user.last_charge)
+
+    flash[:notice] = "Please try our Premium services again in the future, #{current_user.username}! Your subscription fee has been refunded to your account."
+    #Downgrades the user from the User method
+    current_user.downgrade
     redirect_to current_user
   end
 end
