@@ -71,3 +71,6 @@ end
 
  #Stripe handles creditcard account information
  gem 'stripe'
+
+ #Redcarpet handles MArketdown syntax
+ gem 'redcarpet'
