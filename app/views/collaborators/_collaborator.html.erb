@@ -1,0 +1,6 @@
+<% if wiki.user == current_user && current_user.premium? %>
+  <div class="form-group">
+    <%= f.label :collaborator %>
+    <%= f.email_field :collaborator, class: 'form-control', placeholder: "Enter wiki collaborator" %>
+  </div>
+<% end %>

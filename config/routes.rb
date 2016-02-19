@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   resources :wikis
 
+  resources :collaborators, only: [:create, :destroy]
+
   get 'welcome/index'
 
   get 'about' => 'welcome#about'

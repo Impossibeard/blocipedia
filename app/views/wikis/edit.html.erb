@@ -19,12 +19,11 @@
         <%= f.label :body %>
         <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki body" %>
       </div>
+      <%= render partial: 'collaborators/collaborator', locals: { f: f, wiki: @wiki } %>
       <div class="form-group">
         <%= f.submit "Save", class: 'btn btn-primary' %>
       </div>
-      <div>
       <%= render partial: 'wikis/form', locals: { f: f } %>
-      </div>
     <% end %>
   </div>
 </div>
