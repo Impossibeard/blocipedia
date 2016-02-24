@@ -6,8 +6,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-         has_many :wikis
-
          #Final refactoring eliminates need for delegate method
          has_many :collaborators
          has_many :wikis, through: :collaborators

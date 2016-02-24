@@ -7,9 +7,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show]
 
-  resources :wikis
-
-  resources :collaborators, only: [:create, :destroy]
+  resources :wikis do
+    resources :collaborators, only: [:create, :destroy]
+  end
 
   get 'welcome/index'
 

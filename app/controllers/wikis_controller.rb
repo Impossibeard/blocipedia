@@ -15,8 +15,10 @@ class WikisController < ApplicationController
 
   def create
     @user = User.find(current_user)
-    @wiki = @user.wikis.build(wiki_params)
-    @collaborator = @user.collaborators.build(:wiki_id)
+    @wiki = Wiki.new(wiki_params)
+    @wiki.user_id = @user.id
+    #@wiki = @user.wikis.build(wiki_params)
+
 
     if @wiki.save
       flash[:notice] = "Wiki was saved"
@@ -47,6 +49,8 @@ class WikisController < ApplicationController
 
   def destroy
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
+
     if @wiki.destroy
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
       redirect_to wikis_path
