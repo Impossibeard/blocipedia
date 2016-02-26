@@ -2,14 +2,24 @@ class CollaboratorsController < ApplicationController
   before_action :set_wiki
 
   def create
-    @collaborator = User.find_by_email(params[:collaborator]) #pulled from email tag in collaborator form_for partial
-    Collaborator.create(user_id: @collaborator.id, wiki_id: @wiki.id)
-    #@collaborator = @wiki.collaborators.new(user_id: params[:user_id])
 
-    if @collaborator.save
-      flash[:notice] = "#{@collaborator.username} at #{@collaborator.email} has been added as a collaborator to #{@wiki.title}"
+      @collaborator = User.find_by_email(params[:collaborator]) #pulled from email tag in collaborator form_for partial
+
+    if User.exists?(email: params[:collaborator])
+      unless Collaborator.exists?(user_id: @collaborator.id, wiki_id: @wiki.id)
+
+        Collaborator.create(user_id: @collaborator.id, wiki_id: @wiki.id)
+
+        if @collaborator.save
+          flash[:notice] = "#{@collaborator.username} at #{@collaborator.email} has been added as a collaborator to #{@wiki.title}"
+        else
+          flash[:error] = "Adding of collaborator failed"
+        end
+      else
+        flash[:error] = "Collaborator has already been added"
+      end
     else
-      flash[:error] = "Adding of collaborator failed"
+      flash[:error] = "There is no user with that email address"
     end
 
     redirect_to @wiki
